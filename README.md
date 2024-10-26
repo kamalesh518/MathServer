@@ -1,7 +1,8 @@
 # Ex.05 Design a Website for Server Side Processing
-## Name: kamalesh y
-## Reg no: 24004024
-## Date:26.10.2024
+# Name: Kamalesh y
+# Reg no: 24004024
+# Date:26.10.2024
+
 AIM:
 To design a website to find surface area of a Right Cylinder in server side.
 
@@ -30,102 +31,142 @@ Step 6:
 Publish the website in the given URL.
 
 PROGRAM :
-<html>
+DEVELOPED BY : RUDESH KANNA R
+REGISTER NO : 24900303
+
+math.html:
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset='utf-8'>
-<meta http-equiv='X-UA-Compatible' content='IE=edge'>
-<title>Area of Surface</title>
-<meta name='viewport' content='width=device-width, initial-scale=1'>
-<style type="text/css">
-body {
-    background-color: #0d8d88f2;
-}
-.edge {
-    width: 100%;
-    padding-top: 180px;
-    text-align: center;
-}
-.box {
-    display: inline-block;
-    border: thick dashed #cd4f8e;
-    width: 500px;
-    min-height: 300px;
-    font-size: 20px;
-    background-color: rgb(67, 122, 204);
-}
-.formelt {
-    color: black;
-    text-align: center;
-    margin-top: 8px;
-    margin-bottom: 6px;
-}
-h1 {
-    color: black;
-    padding-top: 20px;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lamp Filament Power Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
-<div class="edge">
-    <div class="box">
-        <h1>Surface Area of Right Cylinder</h1>
-        <h3>jaswanth S (212223220037)</h3>
-        <form method="POST">
-            {% csrf_token %}
-            <div class="formelt">
-                Radius: <input type="text" name="radius" value="{{r}}"></input>m<br/>
-            </div>
-            <div class="formelt">
-                Height: <input type="text" name="height" value="{{h}}"></input>m<br/>
-            </div>
-            <div class="formelt">
-                <input type="submit" value="Calculate"></input><br/>
-            </div>
-            <div class="formelt">
-                Area: <input type="text" name="area" value="{{area}}">m<sup>2</sup><br/>
-            </div>
-        </form>
+    <div class="container">
+        <h1>Lamp Filament Power Calculator</h1>
+        <div class="input-group">
+            <label for="current">Current (I) in Amps:</label>
+            <input type="number" id="current" placeholder="Enter current (in Amps)" required>
+        </div>
+        <div class="input-group">
+            <label for="resistance">Resistance (R) in Ohms:</label>
+            <input type="number" id="resistance" placeholder="Enter resistance (in Ohms)" required>
+        </div>
+        <button onclick="calculatePower()">Calculate Power</button>
+        <div class="result" id="result"></div>
     </div>
-</div>
+
+    <script>
+        function calculatePower() {
+            var current = document.getElementById('current').value;
+            var resistance = document.getElementById('resistance').value;
+            if (current && resistance) {
+                var power = Math.pow(current, 2) * resistance;
+                document.getElementById('result').innerHTML = 'Power (P) = ' + power.toFixed(2) + ' Watts';
+            } else {
+                document.getElementById('result').innerHTML = 'Please enter valid values for current and resistance.';
+            }
+        }
+    </script>
 </body>
 </html>
-views.py
+views.py:
 
 from django.shortcuts import render
-def surfacearea(request):
-    context = {}
+def sqprismarea(request):
+    context={}
     context['area'] = "0"
-    context['r'] = "0"
+    context['a'] = "0"
     context['h'] = "0"
     if request.method == 'POST':
         print("POST method is used")
-        print('request.POST:', request.POST)
-        r = request.POST.get('radius', '0') 
-        h = request.POST.get('height', '0') 
-        print('radius =', r)
-        print('height =', h)
-        area = 2 * 3.14 * int(r) * int(h) + 2*3.14*int(r)*int(r)
+        a = request.POST.get('side','0')
+        h = request.POST.get('height','0')
+        print('request=',request)
+        print('side=',a)
+        print('height=',h)
+        area = 2*int(a)*int(a) + 4*int(a)*int(h)
         context['area'] = area
-        context['r'] = r
+        context['a'] = a
         context['h'] = h
-        print('Area =', area)
-    
-    return render(request, 'mathapp/math.html',context)
-urls.py
+        print('Area=',area)
+    return render(request,'mathapp/math.html',context)
+urls.py:
 
 from django.contrib import admin
 from django.urls import path
-from mathapp import views
+from math import views
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('surfacearea/',views.surfacearea,name="surfacearea"),
-    path('',views.surfacearea,name="surfcaearea")
+    path('areaofsqprism/',views.sqprismarea,name="areaofsqprism"),
+    path('',views.sqprismarea,name="areaofsqprismroot")
 ]
-SERVER SIDE PROCESSING:
-image
-
 HOMEPAGE:
-Screenshot 2024-05-09 091709
+Screenshot 2024-10-24 110413
 
 RESULT:
 The program for performing server side processing is completed successfully.
